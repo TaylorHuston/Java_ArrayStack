@@ -1,3 +1,8 @@
+/*
+Array Based Stack Implementation
+Based on Algorithms, 4th Edition, Section 1.3
+ */
+
 
 /**
  *

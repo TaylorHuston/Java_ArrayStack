@@ -31,6 +31,10 @@ public class ArrayStack<Item> implements Iterable<Item> {
     public Item pop() {
             Item toReturn = stack[--top];
             stack[top] = null;  //Garbage cleanup
+            
+            if (top < stack.length-10) {
+                resize(stack.length -10);
+            }
             return toReturn;
     } //End pop
     
@@ -67,10 +71,12 @@ public class ArrayStack<Item> implements Iterable<Item> {
     private void resize(int size) {
         StdOut.println("Resizing stack to " + size);
         Item[] tempStack = (Item[]) new Object[size]; //New array for values
+        
+        //Copies values into new stack
         for (int i = 0; i < top; i++) {
-            tempStack[i] = stack[i];  //Copies values
+            tempStack[i] = stack[i];  
         }
-        stack = tempStack;  //Changes reference to new array
+        stack = tempStack;
         
     } //End resize
     
@@ -82,6 +88,7 @@ public class ArrayStack<Item> implements Iterable<Item> {
         
         int choice = 3;
         while (choice != 0) {
+            StdOut.println();
             StdOut.println("1: Add number to top of stack");
             StdOut.println("2: Remove item from top of stack");
             StdOut.println("3: Display stack");
@@ -97,6 +104,7 @@ public class ArrayStack<Item> implements Iterable<Item> {
             
             if (choice == 2) {
                 myStack.pop();
+                
             }
             
             if (choice == 3) {

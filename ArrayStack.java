@@ -1,5 +1,5 @@
 /*
-Array Based Stack Implementation
+Resizing-Array Based Stack Implementation
 Based on Algorithms, 4th Edition, Section 1.3
  */
 
@@ -18,9 +18,9 @@ public class ArrayStack<Item> implements Iterable<Item> {
     
     //Add item to top of stack
     public void push(Item item) {
-        //If you've reached top of stack, increase it's size by 5
+        //If you've reached top of stack, double it's size
         if (top == stack.length) {
-            resize(stack.length + 5);
+            resize(stack.length *2);
         }
         
         stack[top++] = item;
@@ -32,8 +32,9 @@ public class ArrayStack<Item> implements Iterable<Item> {
             Item toReturn = stack[--top];
             stack[top] = null;  //Garbage cleanup
             
-            if (top < stack.length-10) {
-                resize(stack.length -10);
+            //Reduce size of array if it is less than 1/3rd full
+            if (top < stack.length/3 && top > 10) {
+                resize(stack.length/2);
             }
             return toReturn;
     } //End pop
@@ -68,15 +69,19 @@ public class ArrayStack<Item> implements Iterable<Item> {
         public void remove() { }
     } //End StackIterator
     
+    //Creates a new array of the passed in size and copy values into it
     private void resize(int size) {
         StdOut.println("Resizing stack to " + size);
-        Item[] tempStack = (Item[]) new Object[size]; //New array for values
+        //New array for values
+        Item[] tempStack = (Item[]) new Object[size];
         
-        //Copies values into new stack
+        //Copies values into new array
         for (int i = 0; i < top; i++) {
             tempStack[i] = stack[i];  
         }
+        //Assign stack to the new array
         stack = tempStack;
+        StdOut.println("Stack size is now " + stack.length);
         
     } //End resize
     
@@ -89,8 +94,8 @@ public class ArrayStack<Item> implements Iterable<Item> {
         int choice = 3;
         while (choice != 0) {
             StdOut.println();
-            StdOut.println("1: Add number to top of stack");
-            StdOut.println("2: Remove item from top of stack");
+            StdOut.println("1: Push a number to top of stack");
+            StdOut.println("2: Pop  a number from top of stack");
             StdOut.println("3: Display stack");
             StdOut.println("0: Quit");
             StdOut.print("Choice: ");
@@ -103,8 +108,7 @@ public class ArrayStack<Item> implements Iterable<Item> {
             }
             
             if (choice == 2) {
-                StdOut.println(myStack.pop() + " removed from stack");
-                
+                StdOut.println(myStack.pop() + " removed from stack");  
             }
             
             if (choice == 3) {

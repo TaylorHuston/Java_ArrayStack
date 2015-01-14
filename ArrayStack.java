@@ -103,7 +103,7 @@ public class ArrayStack<Item> implements Iterable<Item> {
             }
             
             if (choice == 2) {
-                myStack.pop();
+                StdOut.println(myStack.pop() + " removed from stack");
                 
             }
             

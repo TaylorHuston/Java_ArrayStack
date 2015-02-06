@@ -6,30 +6,30 @@ Based on Algorithms, 4th Edition, Section 1.3
 
 import java.util.Iterator;
         
-public class ArrayStack<Item> implements Iterable<Item> {
-    private Item[] stack;
+public class ArrayStack<T> implements Iterable<T> {
+    private T[] stack;
     private int top = 0;  //Position of the top of the stack
     
     //Constructor
     public ArrayStack(int size) {
         //Generic array creation isn't allowed, using cast
-        stack = (Item[]) new Object[size]; 
+        stack = (T[]) new Object[size];
     } //End Constructor
     
     //Add item to top of stack
-    public void push(Item item) {
+    public void push(T item) {
         //If you've reached top of stack, double it's size
         if (top == stack.length) {
             resize(stack.length *2);
         }
         
         stack[top++] = item;
-        StdOut.println(stack[top-1] + " Added to stack");
+        StdOut.println(stack[top-1] + " Added to stack"); //For debugging
     } //End push
     
     //Removes item from top of stack
-    public Item pop() {
-            Item toReturn = stack[--top];
+    public T pop() {
+            T toReturn = stack[--top];
             stack[top] = null;  //Garbage cleanup
             
             //Reduce size of array if it is less than 1/3rd full
@@ -45,22 +45,22 @@ public class ArrayStack<Item> implements Iterable<Item> {
     } //End isEmpty
     
     //Returns the iterator
-    public Iterator<Item> iterator() {
-       return new StackIterator();
+    public Iterator<T> iterator() {
+        return new StackIterator();
     } //End iterator
     
-    public class StackIterator implements Iterator<Item> {
-        private int i = top;
+    public class StackIterator implements Iterator<T> {
+        private int i = top; //Increment starting at top of stack
     
         @Override
         //True until i is the bottom of the stack
         public boolean hasNext() {
-            return (i > 0); 
+            return (i > 0);
         } //End hasNext
         
         @Override
-        //Returns the item at the top of the stack
-        public Item next() {
+        //Returns the items in the stack starting from top
+        public T next() {
             return stack[--i];
         } //End next
         
@@ -71,9 +71,9 @@ public class ArrayStack<Item> implements Iterable<Item> {
     
     //Creates a new array of the passed in size and copy values into it
     private void resize(int size) {
-        StdOut.println("Resizing stack to " + size);
+        StdOut.println("Resizing stack to " + size);  //For debugging
         //New array for values
-        Item[] tempStack = (Item[]) new Object[size];
+        T[] tempStack = (T[]) new Object[size];
         
         //Copies values into new array
         for (int i = 0; i < top; i++) {
@@ -81,7 +81,7 @@ public class ArrayStack<Item> implements Iterable<Item> {
         }
         //Assign stack to the new array
         stack = tempStack;
-        StdOut.println("Stack size is now " + stack.length);
+        StdOut.println("Stack size is now " + stack.length); //For debugging
         
     } //End resize
     
@@ -107,11 +107,11 @@ public class ArrayStack<Item> implements Iterable<Item> {
                 myStack.push(toAdd);
             }
             
-            if (choice == 2) {
+            else if (choice == 2) {
                 StdOut.println(myStack.pop() + " removed from stack");  
             }
             
-            if (choice == 3) {
+            else if (choice == 3) {
                 for (Integer x : myStack) {
                     StdOut.println(x + " ");
                 }

@@ -5,16 +5,16 @@ Based on Algorithms, 4th Edition, Section 1.3
 
 
 import java.util.Iterator;
-        
+import java.util.NoSuchElementException;
+
 public class ArrayStack<T> implements Iterable<T> {
     private T[] stack;
     private int top = 0;  //Position of the top of the stack
-    
-    //Constructor
+
     public ArrayStack(int size) {
         //Generic array creation isn't allowed, using cast
         stack = (T[]) new Object[size];
-    } //End Constructor
+    }
     
     //Add item to top of stack
     public void push(T item) {
@@ -25,7 +25,7 @@ public class ArrayStack<T> implements Iterable<T> {
         
         stack[top++] = item;
         StdOut.println(stack[top-1] + " Added to stack"); //For debugging
-    } //End push
+    }
     
     //Removes item from top of stack
     public T pop() {
@@ -37,17 +37,17 @@ public class ArrayStack<T> implements Iterable<T> {
                 resize(stack.length/2);
             }
             return toReturn;
-    } //End pop
+    }
     
     //Simple true or false if the stack is empty or not
     public boolean isEmpty() {
         return (top == 0);
-    } //End isEmpty
+    }
     
     //Returns the iterator
     public Iterator<T> iterator() {
         return new StackIterator();
-    } //End iterator
+    }
     
     public class StackIterator implements Iterator<T> {
         private int i = top; //Increment starting at top of stack
@@ -56,18 +56,23 @@ public class ArrayStack<T> implements Iterable<T> {
         //True until i is the bottom of the stack
         public boolean hasNext() {
             return (i > 0);
-        } //End hasNext
+        }
         
         @Override
         //Returns the items in the stack starting from top
         public T next() {
+            if(i == 0) {
+                throw new NoSuchElementException();
+            }
             return stack[--i];
-        } //End next
+        }
         
         @Override
         //Not implemented
-        public void remove() { }
-    } //End StackIterator
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
+    }
     
     //Creates a new array of the passed in size and copy values into it
     private void resize(int size) {
@@ -83,7 +88,7 @@ public class ArrayStack<T> implements Iterable<T> {
         stack = tempStack;
         StdOut.println("Stack size is now " + stack.length); //For debugging
         
-    } //End resize
+    }
     
     //Test client
     public static void main(String[] args) {
@@ -116,6 +121,6 @@ public class ArrayStack<T> implements Iterable<T> {
                     StdOut.println(x + " ");
                 }
             }
-        } //End while
-    } //End main
-} //End ArrayStack
+        } 
+    }
+}

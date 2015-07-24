@@ -121,6 +121,6 @@ public class ArrayStack<T> implements Iterable<T> {
                     StdOut.println(x + " ");
                 }
             }
-        } 
+        }
     }
 }
